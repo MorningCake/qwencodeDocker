@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  qwen-code:
+    #    build: .
+    image: qwen-code-docker-qwen-code:latest
+    container_name: qwen-code
+    hostname: qwen-code
+    # Изоляция: NAT-режим без доступа извне и к локальной сети
+    network_mode: bridge
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      # Блокировка доступа к локальной сети через переменные окружения
+      - NO_PROXY=localhost,127.0.0.1
+      - no_proxy=localhost,127.0.0.1
+    # Security: ограничение возможностей контейнера
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: false
+    tmpfs:
+      - /tmp
+    # Общая папка
+    volumes:
+      - ./shared:/home/qwen/shared:rw
+      # TODO добавить скиллы глобально через монтирование
+      # Глобальные навыки - это не работает
+    #      - ./skills/sources-skill/SKILL.md:/home/qwen/.qwen/skills/sources-skill/SKILL.md:rw
+    # Ресурсы (опционально)
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+    # Интерактивный режим
+    stdin_open: true
+    tty: true
+
+
+  qwen-code2:
+#    build: .
+    image: qwen-code-docker-qwen-code:latest
+    container_name: qwen-code2
+    hostname: qwen-code
+    # Изоляция: NAT-режим без доступа извне и к локальной сети
+    network_mode: bridge
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      # Блокировка доступа к локальной сети через переменные окружения
+      - NO_PROXY=localhost,127.0.0.1
+      - no_proxy=localhost,127.0.0.1
+    # Security: ограничение возможностей контейнера
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: false
+    tmpfs:
+      - /tmp
+    # Общая папка
+    volumes:
+      - ./shared:/home/qwen/shared:rw
+      - ./qwen-data:/home/qwen/.qwen:rw
+      # TODO добавить скиллы глобально через монтирование
+    # копия skills
+#    command: >
+#      bash -c "
+#        if [ -d './shared/0-skills' ]; then
+#          mkdir -p /home/qwen/.qwen/skills &&
+#          cp -r ./shared/0-skills/* /home/qwen/.qwen/skills/ 2>/dev/null || true;
+#        fi;
+#        if [ -f './shared/0-token/oauth-creds.json' ]; then
+#          cp ./shared/0-token/oauth-creds.json /home/qwen/.qwen/oauth-creds.json 2>/dev/null || true;
+#        fi;
+#        exec bash
+#       "
+    # Ресурсы (опционально)
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+    # Интерактивный режим
+    stdin_open: true
+    tty: true

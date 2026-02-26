@@ -1,0 +1,4 @@
+!shared/.gitkeep
+/qwen-data/
+/shared/
+/shared/*
