@@ -1,0 +1,13 @@
+{
+  "name": "sources-java-jars-reading",
+  "description": "Поиск и чтение исходного кода из .sources/ (внутренние библиотеки EPK)",
+  "version": "1.0.0",
+  "triggers": [
+    "импорты ru.alfabank.epk.*",
+    "импорты ru.alfa.epk.*",
+    "поиск в .sources/",
+    "исходный код библиотеки",
+    "анализ зависимостей"
+  ],
+  "auto_apply": true
+}
