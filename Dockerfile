@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "Установка Node.js LTS"
-# RUN curl -fsSL https://deb.nodesource.com/setup_lts.x && \
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install -y nodejs
 
